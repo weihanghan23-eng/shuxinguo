@@ -1,0 +1,343 @@
+/* css/pages/page9.css - 完全还原原始page9.html样式 */
+
+/* 容器样式 */
+#page9-container {
+    /* 添加措施背景1 - 与7-12页保持一致 */
+    background-image: url('../../image/（现状）68a3f53e156c5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* 覆盖 transitions.css 的全局限制，解决显示比例和底部标题被截断的问题 */
+    max-width: none !important;
+    padding: 0 !important;
+    display: block !important;
+    height: auto !important; /* 覆盖 100vh 限制 */
+    overflow: visible !important; /* 覆盖 overflow: hidden 限制 */
+}
+
+/* 将样式迁移到内部wrapper中 */
+#page9-container .page-wrapper {
+    /* 将本页的CSS变量限定在自己的作用域内 */
+    --primary-color: #b85c5c;
+    --green-color: #27ae60;
+    --yellow-color: #f39c12;
+    --border-color: rgba(0, 0, 0, 0.1);
+    
+    /* 覆盖 main.css 的全局背景色和字体设定，以匹配本页设计 */
+    background-color: transparent; /* 改为透明，让父容器的背景图片显示 */
+    color: #3D3D3D;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    
+    width: 100%;
+    height: 100%;
+}
+
+#page9-container .page-wrapper {
+    display: flex;
+    min-height: 100vh;
+    padding: 3vw 4vw;
+    box-sizing: border-box;
+    width: 100%;
+    /* 确保内容能够完整显示 */
+    height: auto;
+    overflow: visible;
+    position: relative; /* 新增：作为绝对定位的参照物 */
+}
+
+/* 1. 左侧导航栏 */
+#page9-container .side-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 5vw;
+    flex-shrink: 0;
+    position: relative;
+    opacity: 0;
+    animation: page9-fadeIn 1s 0.2s forwards;
+}
+
+#page9-container .side-nav::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    bottom: 15%;
+    width: 2px;
+    background-color: rgba(0,0,0,0.08);
+    transform: translateX(-50%);
+}
+
+#page9-container .nav-item {
+    font-size: 1.1vw;
+    font-weight: 500;
+    color: #888;
+    margin: 2vw 0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+#page9-container .nav-item.active,
+#page9-container .nav-item:hover {
+    color: var(--primary-color);
+}
+
+#page9-container .nav-item.active::after {
+    content: '';
+    position: absolute;
+    left: -1.5vw;
+    top: 50%;
+    width: 0.8vw;
+    height: 2px;
+    background-color: var(--primary-color);
+    transform: translateY(-50%);
+}
+
+/* 2. 主内容区布局重构 */
+#page9-container .main-content {
+    flex-grow: 1;
+    padding-left: 4vw;
+    display: flex;
+    flex-direction: column;
+}
+
+#page9-container .page-header {
+    opacity: 0;
+    animation: page9-slideInUp 0.8s 0.4s forwards;
+}
+
+#page9-container .page-header .subtitle {
+    font-size: 1.2vw;
+    color: #999;
+    font-weight: 400;
+}
+
+#page9-container .page-header .title {
+    font-size: 2.8vw;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0.5vw 0 3vw 0;
+}
+
+#page9-container .content-grid {
+    display: grid;
+    grid-template-columns: 55fr 45fr; /* 非对称布局 */
+    gap: 4vw;
+    flex-grow: 1;
+}
+
+/* 3. 数据可视化升级 */
+#page9-container .chart-section {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    animation: page9-slideInUp 0.8s 0.6s forwards;
+}
+
+#page9-container .chart-section h3 {
+    font-size: 1.6vw;
+    font-weight: 600;
+    margin-bottom: 1.5vw;
+}
+
+#page9-container #chart-container {
+    width: 100%;
+    height: 35vh; 
+    /* 确保图表容器能够正常显示 */
+    min-height: 200px;
+    position: relative;
+}
+
+#page9-container .chart-summary {
+    font-size: 1vw;
+    color: #666;
+    margin-top: 1.5vw;
+    line-height: 1.8;
+    padding-left: 1vw;
+    border-left: 3px solid var(--green-color);
+}
+
+/* 4. 信息架构优化 (手风琴) */
+#page9-container .rules-section {
+    opacity: 0;
+    animation: page9-slideInUp 0.8s 0.8s forwards;
+}
+
+#page9-container .rules-section h3 {
+     font-size: 1.6vw;
+    font-weight: 600;
+    margin-bottom: 1.5vw;
+}
+
+#page9-container .accordion-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+#page9-container .accordion-header {
+    padding: 1.2vw 0;
+    font-size: 1.1vw;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+#page9-container .accordion-header:hover {
+    color: var(--primary-color);
+}
+
+#page9-container .accordion-header::after {
+    content: '+';
+    font-size: 1.5vw;
+    font-weight: 300;
+    transition: transform 0.3s ease;
+}
+
+#page9-container .accordion-item.active .accordion-header::after {
+    transform: rotate(45deg);
+}
+
+#page9-container .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+#page9-container .accordion-item.active .accordion-content {
+     max-height: 500px; /* 使用一个固定的足够大的值，或通过JS动态计算 */
+}
+
+#page9-container .accordion-content-inner {
+    padding-bottom: 1.5vw;
+    font-size: 0.95vw;
+    line-height: 1.9;
+    color: #555;
+}
+
+#page9-container .highlight-box {
+    background: rgba(184, 92, 92, 0.08);
+    border-left: 3px solid var(--primary-color);
+    padding: 1vw;
+    margin-top: 1vw;
+    border-radius: 4px;
+}
+
+#page9-container .highlight-box strong { 
+    color: var(--primary-color); 
+}
+
+/* 页面底部结论 */
+#page9-container .page-conclusion {
+    /* 移除 grid-area: footer，因为父容器使用flexbox布局 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 3.5vw;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+    opacity: 0;
+    animation: page9-slideInUp 1s 1s forwards;
+    color: #3D405B; /* 与page11、12的--font-color保持一致 */
+    z-index: 10;
+    
+    /* 修改为绝对定位，实现真正的页面居中 */
+    position: absolute; /* 改为绝对定位 */
+    bottom: 0;          /* 定位到底部 */
+    left: 0;            /* 横向撑满 */
+    right: 0;           /* 横向撑满 */
+}
+
+/* 动画 */
+@keyframes page9-fadeIn { 
+    from { opacity: 0; } 
+    to { opacity: 1; } 
+}
+
+@keyframes page9-slideInUp { 
+    from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+    } 
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    #page9-container .page-wrapper {
+        padding: 4vw;
+    }
+    
+    #page9-container .content-grid {
+        gap: 3vw;
+    }
+    
+    #page9-container .page-header .title {
+        font-size: 3vw;
+    }
+    
+    #page9-container .chart-section h3,
+    #page9-container .rules-section h3 {
+        font-size: 1.6vw;
+    }
+}
+
+@media (max-width: 768px) {
+    #page9-container .page-wrapper {
+        flex-direction: column;
+        padding: 3vw;
+    }
+    
+    #page9-container .side-nav {
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        margin-bottom: 3vh;
+    }
+    
+    #page9-container .nav-item {
+        margin: 0 2vw;
+        font-size: 3vw;
+    }
+    
+    #page9-container .main-content {
+        padding-left: 0;
+    }
+    
+    #page9-container .content-grid {
+        grid-template-columns: 1fr;
+        gap: 3vh;
+    }
+    
+    #page9-container .page-header .title {
+        font-size: 4vw;
+    }
+    
+    #page9-container .chart-section h3,
+    #page9-container .rules-section h3 {
+        font-size: 3vw;
+    }
+    
+    #page9-container .accordion-header {
+        font-size: 2.5vw;
+        padding: 2vh 3vw;
+    }
+    
+    #page9-container .accordion-content-inner {
+        font-size: 2.2vw;
+        padding: 2vh 3vw;
+    }
+    
+    #page9-container .page-conclusion {
+        font-size: 4vw;
+    }
+}

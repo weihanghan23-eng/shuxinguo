@@ -1,0 +1,220 @@
+/* css/pages/page12.css - 根本性修复版 */
+
+/* --- 核心修复：布局豁免规则 --- */
+#page12-container {
+    /* 关键：禁用 main.css 的 flex 居中行为，恢复为正常的块级布局模型 */
+    display: block !important; 
+    
+    /* 保留之前的豁免规则 */
+    max-width: none !important;
+    padding: 0 !important;
+}
+
+
+/* --- 页面专属变量的作用域限定在 Page 12 内部 --- */
+#page12-container {
+    --bg-color: #FFFBF0;
+    --font-color: #3D405B;
+    --primary-color-1: #3D405B;
+    --primary-color-2: #E07A5F;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --panel-bg: rgba(255, 255, 255, 0.5);
+    --font-family-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    
+    background-color: var(--bg-color);
+    color: var(--font-color);
+    font-family: var(--font-family-main);
+    
+    /* 添加措施背景1 - 与13页之后保持一致 */
+    background-image: url('../../image/（现状）68a3f53e156c5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#page12-container * { 
+    box-sizing: border-box; 
+}
+
+/* --- 页面整体布局 --- */
+#page12-container .page-container {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+        "sidebar main"
+        "footer footer";
+    height: 100vh;
+    width: 100%;
+    /* 恢复为原始的、正确的间距值 */
+    padding: 2vw;
+    gap: 2vw;
+}
+
+#page12-container .page-footer {
+    grid-area: footer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5vw;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    padding-top: 1vw;
+    opacity: 0;
+    animation: page12-fadeIn 0.8s 0.4s ease-out forwards;
+}
+
+#page12-container .sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    opacity: 0;
+    animation: page12-slideInLeft 0.8s 0.6s ease-out forwards;
+}
+#page12-container .sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 1.5vw;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--panel-bg);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+#page12-container .sidebar-item:hover {
+    transform: translateY(-5px) scale(1.05);
+    border-color: var(--primary-color-2);
+}
+#page12-container .sidebar-item.active {
+    background-color: var(--font-color);
+    color: var(--bg-color);
+    border-color: var(--font-color);
+}
+
+#page12-container .main-content {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vw; 
+    opacity: 0;
+    animation: page12-fadeIn 0.8s 0.8s ease-out forwards;
+    min-height: 0;
+}
+
+#page12-container .tab-nav {
+    display: flex;
+    gap: 15px;
+}
+#page12-container .tab-button {
+    padding: 10px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--panel-bg);
+    cursor: pointer;
+    font-size: 1.1vw;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+#page12-container .tab-button:hover {
+    border-color: var(--primary-color-2);
+    color: var(--primary-color-2);
+}
+#page12-container .tab-button.active {
+    background-color: var(--font-color);
+    color: var(--bg-color);
+    border-color: var(--font-color);
+}
+
+#page12-container .tab-content {
+    flex-grow: 1;
+    display: none;
+    flex-direction: column;
+    gap: 1.5vw;
+    min-height: 0;
+}
+#page12-container .tab-content.active {
+    display: flex;
+}
+
+#page12-container .top-charts-container {
+    flex: 4;
+    min-height: 0;
+}
+
+#page12-container .bottom-text-container {
+    flex: 1;
+    min-height: 0;
+}
+
+#page12-container .panel {
+    width: 100%;
+    height: 100%;
+    padding: 25px;
+    border-radius: 12px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+}
+#page12-container .text-panel {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    font-size: 1.1vw;
+    line-height: 1.8;
+    padding: 2vw;
+    overflow-y: auto; 
+}
+
+#page12-container #chart-container-B {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+#page12-container .chart-grid-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+#page12-container .chart-grid {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+}
+#page12-container .grid-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+#page12-container .chart-grid-legend {
+    text-align: center;
+    padding-top: 15px;
+    font-size: 16px;
+}
+#page12-container .legend-item {
+    display: inline-block;
+    margin: 0 15px;
+}
+#page12-container .legend-color {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+/* --- 动画 (已重命名以避免冲突) --- */
+@keyframes page12-fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes page12-slideInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }

@@ -1,0 +1,259 @@
+/* css/pages/page8.css - Ultimate Conflict Resolution Version */
+
+/*
+ * ===================================================================
+ *               ★★★ ULTIMATE CONFLICT RESOLUTION ★★★
+ * ===================================================================
+ * The root cause is the ".layout-centered" class in main.css, which
+ * imposes a max-width and flex properties intended for simple content.
+ * This breaks Page 8's full-screen Grid layout.
+ *
+ * The following rules COMPLETELY NEUTRALIZE the effects of
+ * ".layout-centered" specifically for this page, allowing it to render
+ * correctly as a full-screen block element.
+*/
+
+/* Step 1: Reset the page container itself from flex to block */
+#page8-container.page-section.layout-centered {
+    display: block !important;
+    justify-content: initial !important;
+    align-items: initial !important;
+    padding: 0 !important;
+}
+
+/* Step 2: Reset the wrapper inside, removing the max-width constraint */
+#page8-container.page-section.layout-centered > .page8-wrapper {
+    max-width: none !important; /* THIS IS THE MOST CRITICAL FIX */
+    width: 100% !important;     /* Ensure it spans its container fully */
+}
+
+
+/* 
+ * ===================================================================
+ *                      PAGE 8 ORIGINAL STYLES
+ * ===================================================================
+ * The rest of the styles are now applied within a correctly-sized container.
+*/
+
+/* 页面8样式 - 药品集采展望页面 */
+
+/* 容器样式 */
+#page8-container .page8-wrapper {
+    width: 100%;
+    height: 100%;
+    background-image: url('../../image/（现状）68a3f53e156c5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #FFFBF0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #4A4A4A;
+    /* Page-specific CSS variables */
+    --bg-color: #FFFBF0;
+    --font-color: #3D405B;
+    --primary-color-1: #3D405B;
+    --primary-color-2: #E07A5F;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --font-family-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+/* 2. Base reset inside the sand-box */
+#page8-container .page8-wrapper * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 3. All original page styles prefixed correctly */
+#page8-container .page8-wrapper .page-container {
+    display: grid;
+    grid-template-columns: 120px 1fr 320px;
+    grid-template-rows: 100px 1fr 80px;
+    grid-template-areas:
+        "header header header"
+        "sidebar main infobar"
+        "sidebar footer footer";
+    height: 100vh;
+    padding: 2.5vw;
+    gap: 2vw;
+}
+
+#page8-container .page8-wrapper .page-header {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+    opacity: 0;
+    animation: fadeIn 0.8s 0.2s ease-out forwards;
+}
+
+#page8-container .page8-wrapper .main-title {
+    font-size: 3.2vw;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+}
+
+#page8-container .page8-wrapper .page-number {
+    font-size: 1.2vw;
+    font-weight: 400;
+    color: var(--font-color-light);
+}
+
+#page8-container .page8-wrapper .page-number span {
+    font-weight: 700;
+    color: var(--color-decrease);
+}
+
+#page8-container .page8-wrapper .sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    opacity: 0;
+    animation: slideInLeft 0.8s 0.6s forwards;
+}
+
+#page8-container .page8-wrapper .sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 1.5vw;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+}
+
+#page8-container .page8-wrapper .sidebar-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    border-color: var(--color-decrease);
+}
+
+#page8-container .page8-wrapper .sidebar-item.active {
+    background-color: #4A4A4A;
+    color: #FFFBF0;
+    border-color: #4A4A4A;
+}
+
+#page8-container .page8-wrapper .info-panel {
+    grid-area: infobar;
+    padding: 30px;
+    border-radius: 12px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    border: 1px solid var(--border-color);
+    opacity: 0;
+    animation: slideInRight 0.8s 0.6s forwards;
+    position: relative;
+}
+
+#page8-container .page8-wrapper .info-panel::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 35px;
+    width: 5px;
+    height: 2.5vh;
+    background-color: var(--color-decrease);
+    border-radius: 3px;
+}
+
+#page8-container .page8-wrapper .info-panel h3 {
+    font-size: 1.5vw;
+    margin-bottom: 25px;
+    font-weight: 600;
+    padding-left: 20px;
+}
+
+#page8-container .page8-wrapper .info-panel p {
+    font-size: 1vw;
+    line-height: 2.2;
+    font-weight: 300;
+    margin-bottom: 1.5em;
+}
+
+#page8-container .page8-wrapper .info-panel strong {
+    font-weight: 600;
+}
+
+#page8-container .page8-wrapper .main-content {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    animation: fadeIn 0.8s 0.8s forwards;
+}
+
+#page8-container .page8-wrapper .chart-controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+#page8-container .page8-wrapper .control-btn {
+    padding: 10px 25px;
+    font-size: 1vw;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: #4A4A4A;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#page8-container .page8-wrapper .control-btn:hover {
+    background-color: rgba(0,0,0,0.03);
+    border-color: #4A4A4A;
+}
+
+#page8-container .page8-wrapper .control-btn.active {
+    background-color: #4A4A4A;
+    color: #FFFBF0;
+    border-color: #4A4A4A;
+}
+
+#page8-container .page8-wrapper #chart-container {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+}
+
+#page8-container .page8-wrapper .page-footer {
+    grid-area: footer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#page8-container .page8-wrapper .chart-title {
+    font-size: 1.2vw;
+    font-weight: 500;
+    color: var(--font-color-light);
+    text-align: center;
+}
+
+/* 4. Page-specific animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}

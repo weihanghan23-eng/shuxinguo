@@ -1,0 +1,170 @@
+/* css/pages/page7.css - 用于 page7 的沙箱化样式 */
+
+/* 1. 定义沙箱容器的基础属性，并将原始 body 样式迁移至此 */
+#page7-container .page7-wrapper {
+    width: 100%;
+    height: 100vh; /* 必须撑满视口 */
+    overflow: hidden; /* 禁止滚动 */
+    
+    /* 迁移自原始文件的全局样式 */
+    --bg-color: #FFFBF0;
+    --text-color: #333;
+    --primary-color-green: #27ae60;
+    --primary-color-yellow: #f39c12;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    background-image: url('../../image/（现状）68a3f53e156c5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 2. 将原始CSS中所有规则，全部加上沙箱前缀 */
+
+/* --- 页面主容器 --- */
+#page7-container .page7-wrapper .page-container {
+    display: grid;
+    grid-template-columns: 120px 1fr 1fr; /* 侧边栏 | 图表 | 文字 */
+    grid-template-rows: 1fr auto; /* 内容区 | 底部标题 */
+    grid-template-areas:
+        "sidebar main main"
+        "footer footer footer";
+    width: 100%;
+    height: 100%; /* 继承父级的高度 */
+    padding: 2vw;
+    box-sizing: border-box;
+}
+
+/* --- 动画定义 (无需前缀) --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-30px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* --- 侧边栏 --- */
+#page7-container .page7-wrapper .sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 2vw;
+    animation: slideInLeft 0.8s 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+#page7-container .page7-wrapper .sidebar-item {
+    font-size: 1.5vw;
+    font-weight: 300;
+    padding: 1.2vw 0;
+    margin: 0.5vw 0;
+    writing-mode: vertical-lr; /* 文字竖排 */
+    letter-spacing: 0.2vw;
+    cursor: default;
+    position: relative;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+#page7-container .page7-wrapper .sidebar-item.active {
+    font-weight: 600;
+    opacity: 1;
+}
+
+#page7-container .page7-wrapper .sidebar-item.active::before {
+    content: '';
+    position: absolute;
+    left: -1.5vw;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background-color: var(--primary-color-green);
+    border-radius: 3px;
+}
+
+/* --- 主内容区 (图表 + 文字) --- */
+#page7-container .page7-wrapper .main-content {
+    grid-area: main;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3vw;
+}
+
+/* --- 图表容器 --- */
+#page7-container .page7-wrapper .chart-wrapper {
+    width: 65%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    animation: slideInUp 0.8s 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+#page7-container .page7-wrapper .chart-title {
+    font-size: 1.8vw;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.5vh;
+}
+
+#page7-container .page7-wrapper #main-chart {
+    width: 100%;
+    height: 100%;
+}
+
+/* --- 文字解释区 --- */
+#page7-container .page7-wrapper .explanation-card {
+    width: 30%;
+    height: auto;
+    padding: 2vw;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    animation: slideInUp 0.8s 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+#page7-container .page7-wrapper .explanation-card h3 {
+    font-size: 1.6vw;
+    margin-top: 0;
+    margin-bottom: 1.5vh;
+    border-left: 4px solid var(--primary-color-yellow);
+    padding-left: 1vw;
+}
+
+#page7-container .page7-wrapper .explanation-card p {
+    font-size: 1.1vw;
+    line-height: 1.8;
+    font-weight: 300;
+}
+
+/* --- 底部大标题 --- */
+#page7-container .page7-wrapper .footer-title {
+    grid-area: footer;
+    text-align: center;
+    font-size: 3.5vw;
+    font-weight: 900;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+    color: #4A4A4A;
+    letter-spacing: 0.2em;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+    animation: fadeIn 1s 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}

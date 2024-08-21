@@ -1,0 +1,259 @@
+/* css/pages/page10.css - 药品质量与可及性得到保证 (v2-最终版) */
+
+/* 1. 定义沙箱容器的基础属性，并将 :root 变量移入 */
+#page10-container {
+    /* 添加措施背景1 - 与13页之后保持一致 */
+    background-image: url('../../image/（现状）68a3f53e156c5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* 覆盖 main.css 的全局限制 */
+    max-width: none !important;
+    padding: 0 !important;
+    display: block !important;
+}
+
+#page10-container .page10-wrapper {
+    width: 100%;
+    overflow: hidden;
+    
+    /* --- 基础与字体设置 (原 :root 和 body) --- */
+    --bg-color: #FFFBF0;
+    --primary-text-color: #3D405B;
+    --secondary-text-color: #8D99AE;
+    --bar-color-western: #4F7CAC;
+    --bar-color-tcm: #83A9D3;
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    /* 移除背景色，让父容器的背景图片显示 */
+    color: var(--primary-text-color);
+}
+
+/* 2. 将原始CSS中所有规则，全部加上沙箱前缀 */
+#page10-container .page10-wrapper * { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+}
+
+/* 确保内部最顶层容器能撑满视口 */
+#page10-container .page10-wrapper .page-container {
+    display: flex;
+    width: 100vw; /* 撑满视口宽度 */
+    height: 100vh; /* 撑满视口高度 */
+    padding: 3vw 4vw;
+    position: relative; /* 新增：作为绝对定位的参照物 */
+}
+
+#page10-container .page10-wrapper .side-panel { 
+    flex: 0 0 10%; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    padding-top: 15vh; 
+    gap: 6vh; 
+}
+
+#page10-container .page10-wrapper .main-content { 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+}
+
+#page10-container .page10-wrapper .content-body {
+    margin-top: 0;
+}
+
+#page10-container .page10-wrapper .stakeholder-item {
+    font-size: 2vw; 
+    font-weight: 500; 
+    padding-left: 1.5vw;
+    border-left: 3px solid var(--primary-text-color);
+    opacity: 0; 
+    transform: translateX(-20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+#page10-container .page10-wrapper .content-block {
+    opacity: 0; 
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 1s ease-out, filter 0.5s ease-in-out;
+}
+
+#page10-container .page10-wrapper .is-dimmed { 
+    opacity: 0.3 !important; 
+}
+
+#page10-container .page10-wrapper .chart-wrapper h3 {
+    font-size: 1.3vw; 
+    font-weight: 600;
+    margin-bottom: 3.5vh;
+    color: var(--primary-text-color);
+}
+
+#page10-container .page10-wrapper .bar-chart-vertical { 
+    display: flex; 
+    justify-content: space-around; 
+    align-items: flex-end; 
+    height: 25vh; 
+    border-bottom: 1px solid #ddd; 
+    padding-bottom: 0.5vh; 
+}
+
+#page10-container .page10-wrapper .bar-group { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    width: 6%; 
+    height: 100%; 
+    justify-content: flex-end; 
+}
+
+#page10-container .page10-wrapper .bar { 
+    width: 70%; 
+    background-color: var(--bar-color-western); 
+    transition: height 1.5s cubic-bezier(0.23, 1, 0.32, 1); 
+    display: flex; 
+    flex-direction: column-reverse; 
+    position: relative;
+}
+
+#page10-container .page10-wrapper .bar-tcm { 
+    width: 100%; 
+    background-color: var(--bar-color-tcm); 
+}
+
+#page10-container .page10-wrapper .bar-value { 
+    position: absolute; 
+    top: -3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    font-size: 0.8vw; 
+    font-weight: 600; 
+    opacity: 0; 
+    transition: opacity 0.5s ease 1s;
+}
+
+#page10-container .page10-wrapper .bar-label { 
+    margin-top: 1vh; 
+    font-size: 0.8vw; 
+    color: var(--secondary-text-color); 
+}
+
+#page10-container .page10-wrapper .chart-wrapper { 
+    margin-bottom: 4vh; 
+}
+
+#page10-container .page10-wrapper .bar-chart-horizontal { 
+    width: 100%; 
+}
+
+#page10-container .page10-wrapper .bar-row { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 1.2vh; 
+    opacity: 0; 
+    transition: opacity 0.5s ease; 
+}
+
+#page10-container .page10-wrapper .bar-row-label { 
+    width: 25%; 
+    text-align: right; 
+    padding-right: 1.5vw; 
+    font-size: 0.9vw; 
+    color: var(--primary-text-color); 
+    white-space: nowrap; 
+}
+
+#page10-container .page10-wrapper .bar-horizontal-wrapper { 
+    flex: 1; 
+    height: 1.8vh; 
+    background-color: #EAEAEA; 
+    border-radius: 0.9vh; 
+}
+
+#page10-container .page10-wrapper .bar-horizontal { 
+    width: 0; 
+    height: 100%; 
+    background-color: var(--bar-color-western); 
+    border-radius: 0.9vh; 
+    position: relative; 
+    transition: width 1.5s cubic-bezier(0.23, 1, 0.32, 1); 
+}
+
+#page10-container .page10-wrapper .bar-horizontal-value { 
+    position: absolute; 
+    right: -3vw; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    font-size: 0.9vw; 
+    font-weight: 600; 
+}
+
+#page10-container .page10-wrapper .summary-text {
+    font-size: 1.1vw; 
+    line-height: 1.8; 
+    color: #555;
+    max-width: 95%; 
+    margin-bottom: 0;
+}
+
+#page10-container .page10-wrapper .summary-text p { 
+    margin-bottom: 1em; 
+}
+
+#page10-container .page10-wrapper .summary-text p:last-child {
+    margin-bottom: 0;
+}
+
+#page10-container .page10-wrapper .conclusion { 
+    /* 移除 grid-area: footer，因为父容器使用flexbox布局 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; 
+    padding-bottom: 2vh; 
+    
+    /* 修改为绝对定位，实现真正的页面居中 */
+    position: absolute; /* 改为绝对定位 */
+    bottom: 0;          /* 定位到底部 */
+    left: 0;            /* 横向撑满 */
+    right: 0;           /* 横向撑满 */
+}
+
+#page10-container .page10-wrapper .conclusion h1 { 
+    font-size: 3.5vw;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    color: #3D405B; /* 与page11、12的--font-color保持一致 */
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+}
+
+#page10-container .page10-wrapper .is-visible { 
+    opacity: 1 !important; 
+    transform: none !important; 
+}
+
+#page10-container .page10-wrapper .is-visible .bar-value { 
+    opacity: 1; 
+}
+
+/* 确保动画元素有正确的初始状态 */
+#page10-container .page10-wrapper .stakeholder-item.is-visible {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+}
+
+#page10-container .page10-wrapper .content-block.is-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+#page10-container .page10-wrapper .bar-row.is-visible {
+    opacity: 1 !important;
+}

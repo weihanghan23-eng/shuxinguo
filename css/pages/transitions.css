@@ -1,0 +1,71 @@
+/* --- Global Reset & Scroll Behavior --- */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #FFFBF0;
+}
+
+/* ★★★ Base styles for all pages ★★★ */
+.page-section {
+    position: relative;
+    z-index: 1;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* --- Transition Page Container --- */
+.transition-section {
+    height: 200vh;
+    position: relative;
+    z-index: 2;
+    /* ▼▼▼ THE CRITICAL FIX - PART 1 ▼▼▼ */
+    /* This makes the entire 200vh container "invisible" to the mouse,
+       allowing clicks to pass through to the page behind it. */
+    pointer-events: none;
+}
+
+/* ★★★ Fixes the blank page ★★★ */
+.transition-section + .page-section {
+    margin-top: -100vh;
+}
+
+/* --- Transition Page Sticky Wrapper (The actual content) --- */
+.transition-section .transition-wrapper {
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    /* ▼▼▼ THE CRITICAL FIX - PART 2 ▼▼▼ */
+    /* We re-enable mouse events for the wrapper so the images/content
+       inside it can be interacted with during the animation. */
+    pointer-events: auto;
+}
+
+/* --- A/B side styles (No changes here) --- */
+.transition-section .a-side,
+.transition-section .b-side {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.transition-section .a-side { z-index: 2; }
+.transition-section .b-side { z-index: 1; background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; }
+.transition-section .a-side img { position: absolute; width: 100%; height: 55%; transition: transform 0.5s ease-out, opacity 0.5s ease-out; object-fit: cover; }
+.transition-section .a-side img[id$='-a1'] { top: 0; left: 0; object-position: bottom; }
+.transition-section .a-side img[id$='-a2'] { bottom: 0; left: 0; object-position: top; }
+.transition-section .b-side img { max-width: 80%; max-height: 80%; transition: opacity 0.5s ease-in; }
+
+/* --- Page-Specific Background Images (No changes here) --- */
+#transition-benefits .b-side {
+    background-image: url('../../image/（现状）68a3f53e156c5.png');
+}
+#transition-problems .b-side {
+    background-image: url('../../image/（问题）68a50c3d7aaac.png');
+}
+#transition-solutions .b-side {
+    background-image: url('../../image/（措施）68a54c3134aff.png');
+}

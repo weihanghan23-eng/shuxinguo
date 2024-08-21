@@ -1,0 +1,224 @@
+/* css/pages/page16.css - 推动规则创新 */
+
+/* 1. 定义沙箱容器的基础属性，并将原 <html>, <body> 样式迁移至此 */
+#page16-container .page16-wrapper {
+    width: 100%;
+    overflow: hidden;
+    
+    /* --- 风格标准：继承自【白版】文件 --- */
+    --bg-color: #FFFBF0;
+    --font-color: #3D405B;
+    --primary-color-1: #3D405B; /* 深灰蓝 */
+    --primary-color-2: #E07A5F;  /* 珊瑚橙 */
+    --accent-color-green: #81B29A; /* 强调色-绿 */
+    --accent-color-red: #E07A5F;   /* 强调色-红 */
+    --border-color: rgba(0, 0, 0, 0.1);
+    --panel-bg: rgba(255, 255, 255, 0.5); /* 半透明面板背景 */
+    --font-family-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+
+    /* 从原始 body, html 迁移过来的样式 */
+    font-family: var(--font-family-main);
+    color: var(--font-color);
+    background-image: url('../../image/（现状）68a3f53e156c5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 2. 将原始CSS中所有规则，全部加上沙箱前缀 */
+#page16-container .page16-wrapper * { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+/* 确保内部最顶层容器能撑满视口 */
+#page16-container .page16-wrapper .page-container {
+    height: 100vh;
+    width: 100vw;
+    position: relative; 
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+        "sidebar main"
+        "footer footer";
+    padding: 2vw;
+    gap: 2vw;
+}
+
+#page16-container .page16-wrapper .page-footer {
+    grid-area: footer;
+    text-align: center;
+    font-size: 3.5vw;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    padding-top: 1vw;
+    text-shadow: 0 0 15px rgba(255,255,255,0.7);
+    opacity: 0;
+    animation: fadeIn 0.8s 0.4s ease-out forwards;
+}
+
+#page16-container .page16-wrapper .sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    opacity: 0;
+    animation: slideInLeft 0.8s 0.6s ease-out forwards;
+}
+
+#page16-container .page16-wrapper .sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 1.5vw;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--panel-bg);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+#page16-container .page16-wrapper .sidebar-item:hover {
+    transform: translateY(-5px) scale(1.05);
+    border-color: var(--primary-color-2);
+}
+
+#page16-container .page16-wrapper .sidebar-item.active {
+    background-color: var(--font-color);
+    color: var(--bg-color);
+    border-color: var(--font-color);
+}
+
+#page16-container .page16-wrapper .main-content {
+    grid-area: main;
+    display: grid;
+    grid-template-rows: 3fr 1fr; 
+    grid-template-columns: 1fr;
+    gap: 2vw; 
+    opacity: 0;
+    animation: fadeIn 0.8s 0.8s ease-out forwards;
+    min-height: 0;
+    padding-top: 2vh; 
+}
+
+#page16-container .page16-wrapper .top-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2vw;
+    min-height: 0;
+}
+
+#page16-container .page16-wrapper .bottom-section .panel {
+    height: 100%;
+    padding: 1.5vw 2vw;
+    font-size: 1.0vw; 
+    line-height: 1.8;
+    overflow-y: auto;
+}
+
+#page16-container .page16-wrapper .bottom-section .panel p {
+    margin-bottom: 1em;
+}
+
+#page16-container .page16-wrapper .highlight-text {
+    font-weight: bold;
+    color: var(--primary-color-2);
+}
+
+#page16-container .page16-wrapper .panel {
+    border-radius: 12px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+}
+
+#page16-container .page16-wrapper .chart-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 12px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+}
+
+#page16-container .page16-wrapper .chart-controls {
+    flex-shrink: 0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#page16-container .page16-wrapper .chart-controls button {
+    padding: 8px 20px;
+    margin: 0 10px;
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+    color: var(--font-color);
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#page16-container .page16-wrapper .chart-controls button.active,
+#page16-container .page16-wrapper .chart-controls button:hover {
+    background-color: var(--font-color);
+    color: var(--bg-color);
+    border-color: var(--font-color);
+}
+
+#page16-container .page16-wrapper .chart-display-area {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    min-height: 0;
+}
+
+#page16-container .page16-wrapper .chart-display-area > div, 
+#page16-container .page16-wrapper .chart-display-area > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.4s ease-in-out;
+}
+
+#page16-container .page16-wrapper .chart-display-area img {
+    object-fit: contain;
+}
+
+#page16-container .page16-wrapper .page-footnote {
+    position: absolute;
+    bottom: 1vw;
+    right: 2vw;
+    font-size: 0.7vw;
+    color: rgba(61, 64, 91, 0.8);
+    max-width: 70%;
+    white-space: nowrap; 
+    text-align: right;
+    z-index: 10;
+}
+
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(10px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+@keyframes slideInLeft { 
+    from { opacity: 0; transform: translateX(-50px); } 
+    to { opacity: 1; transform: translateX(0); } 
+}

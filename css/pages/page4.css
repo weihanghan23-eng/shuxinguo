@@ -1,0 +1,231 @@
+/* css/pages/page4.css - 页面沙箱化样式 */
+
+/* 关键修复：删除违规规则，让main.css控制宏观布局 */
+/* 注意：page4.css没有直接修改最外层容器的违规规则，符合架构原则 */
+
+/* 容器样式 - 遵循全局PPT翻页布局规则 */
+#page4-container {
+    /* 添加措施背景1 - 与1-6页保持一致 */
+    background-image: url('../../image/（1-6）68a725b2d3e64.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* 覆盖 main.css 的全局限制 */
+    max-width: none !important;
+    padding: 0 !important;
+    display: block !important;
+}
+
+/* 1. 定义沙箱容器的基础属性 (情况A：复杂全屏页面) */
+#page4-container .page4-wrapper {
+    width: 100%;
+    height: 100vh;
+    background-color: transparent;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    /* 从原始 <body> 和 :root 标签中提取的基础样式 */
+    font-family: 'Noto Sans SC', sans-serif;
+    color: #3D3D3D;
+
+    --bg-color: #FFFBF0;
+    --text-color: #3D3D3D;
+    --primary-color: #C74646;
+    --line-color: #E0DCD1;
+    --year-color: #A0988A;
+    --font-serif: 'Noto Serif SC', serif;
+    --font-sans: 'Noto Sans SC', sans-serif;
+}
+
+/* 2. 将原始CSS中所有规则，全部加上沙箱前缀 */
+
+#page4-container .page4-wrapper .slide-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#page4-container .page4-wrapper .timeline-canvas {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    /* **修复点2.2**: 再放大3%的画布尺寸 */
+    width: 1081.5px;
+    height: 540.75px;
+    transform: translate(-50%, -50%);
+    transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+#page4-container .page4-wrapper .timeline-paths {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#page4-container .page4-wrapper .timeline-paths path {
+    stroke-width: 3;
+    fill: none;
+}
+
+#page4-container .page4-wrapper #path-bg {
+    stroke: var(--line-color);
+}
+
+#page4-container .page4-wrapper #path-future {
+    stroke: var(--line-color);
+    stroke-dasharray: 8 8;
+}
+
+#page4-container .page4-wrapper #path-progress {
+    stroke: var(--primary-color);
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 1.0s ease-in-out;
+}
+
+#page4-container .page4-wrapper .year-marker {
+    position: absolute;
+    color: var(--year-color);
+    font-size: 16px;
+    font-weight: 500;
+    transform-origin: center center;
+    transform: translate(-50%, -35px) rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+#page4-container .page4-wrapper .year-marker.is-visible {
+    opacity: 1;
+}
+
+#page4-container .page4-wrapper .timeline-stage {
+    position: absolute;
+}
+
+#page4-container .page4-wrapper .node {
+    width: 24px;
+    height: 24px;
+    background: var(--bg-color);
+    border: 3px solid var(--line-color);
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    transition: border-color 0.5s, transform 0.5s;
+}
+
+#page4-container .page4-wrapper .is-overview .timeline-stage .node,
+#page4-container .page4-wrapper .timeline-stage.is-active .node {
+    border-color: var(--primary-color);
+}
+
+#page4-container .page4-wrapper .timeline-stage.is-active .node {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+#page4-container .page4-wrapper .stage-content {
+    position: absolute;
+    width: 400px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+}
+
+#page4-container .page4-wrapper .timeline-stage.is-active .stage-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#page4-container .page4-wrapper .is-overview .timeline-stage .stage-content {
+    /* **修复点1**: 概览视图下内容完全不透明，去除灰蒙蒙效果 */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#page4-container .page4-wrapper [data-side="left"] .stage-content {
+    right: 50px;
+    bottom: 0;
+    text-align: right;
+}
+
+#page4-container .page4-wrapper [data-side="right"] .stage-content {
+    left: 50px;
+    top: 0;
+    text-align: left;
+}
+
+#page4-container .page4-wrapper .stage-content h2 {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin: 0;
+    line-height: 1.2;
+}
+
+#page4-container .page4-wrapper .stage-content .date {
+    font-size: 1.2rem;
+    color: var(--year-color);
+    margin: 5px 0 20px 0;
+    display: block;
+}
+
+#page4-container .page4-wrapper .stage-content .details {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--text-color);
+    padding-left: 15px;
+    border-left: 3px solid var(--primary-color);
+}
+
+#page4-container .page4-wrapper [data-side="left"] .details {
+    padding-left: 0;
+    padding-right: 15px;
+    border-left: none;
+    border-right: 3px solid var(--primary-color);
+}
+
+#page4-container .page4-wrapper #to-be-continued {
+    position: absolute;
+    color: var(--year-color);
+    font-size: 14px;
+    transform: translate(20px, -50%) rotate(45deg);
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+#page4-container .page4-wrapper .is-overview #to-be-continued {
+    opacity: 1;
+}
+
+#page4-container .page4-wrapper .page-header {
+    position: absolute;
+    top: 5vh;
+    left: 5vw;
+    color: #ccc;
+    opacity: 0;
+    transition: opacity 1s;
+    z-index: 10;
+}
+
+#page4-container .page4-wrapper .page-header.is-visible {
+    opacity: 1;
+}
+
+#page4-container .page4-wrapper .page-header h1 {
+    font-size: 3rem;
+    font-weight: 300;
+    margin: 0;
+}
+
+#page4-container .page4-wrapper .page-header p {
+    font-size: 1rem;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+#page4-container .page4-wrapper .page-header p small {
+    font-size: 0.8rem;
+    color: #aaa;
+    display: block;
+    margin-top: 5px;
+}

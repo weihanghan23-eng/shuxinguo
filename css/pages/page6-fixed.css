@@ -1,0 +1,212 @@
+/* css/pages/page6.css - 国家药品集采全景路径探索图 */
+
+/* 容器样式 - 遵循全局PPT翻页布局规则 */
+#page6-container {
+    /* 添加措施背景1 - 与1-6页保持一致 */
+    background-image: url('../../image/（1-6）68a725b2d3e64.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* 覆盖 main.css 的全局限制 */
+    max-width: none !important;
+    padding: 0 !important;
+    display: block !important;
+}
+
+/* 1. 定义沙箱容器的基础属性，并赋予其布局能力 */
+#page6-container .page6-wrapper {
+    /* 继承自原始 <body> 的样式 */
+    font-family: 'Noto Sans SC', sans-serif;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    /* 将 :root 的变量作用域限定在沙箱内 */
+    --bg-color: #FFFBF0;
+    --text-color: #333;
+    --title-color: #2c3e50;
+    --header-border-color: #e0e0e0;
+    --node-shadow: 0 4px 8px rgba(0, 0, 0, 0.07);
+    --node-shadow-hover: 0 8px 18px rgba(0, 0, 0, 0.12);
+    --line-main: #e74c3c;
+    --line-coordination: #f1c40f;
+    --line-oversight: #3498db;
+    
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+/* 2. 将所有原始样式规则加上沙箱前缀 */
+#page6-container .page6-wrapper .main-title {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--title-color);
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+#page6-container .page6-wrapper .chart-container {
+    position: relative;
+    width: 90%;
+    max-width: 1400px;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+#page6-container .page6-wrapper #svg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#page6-container .page6-wrapper #svg-overlay path {
+    fill: none;
+    stroke-width: 3;
+    transition: all 0.3s ease;
+}
+
+#page6-container .page6-wrapper path.line-main { stroke: var(--line-main); stroke-width: 3.5; }
+#page6-container .page6-wrapper path.line-coordination { stroke: var(--line-coordination); stroke-dasharray: 8 4; }
+#page6-container .page6-wrapper path.line-oversight { stroke: var(--line-oversight); stroke-dasharray: 2 5; stroke-linecap: round; }
+
+#page6-container .page6-wrapper .grid {
+    display: grid;
+    grid-template-columns: 120px repeat(4, 1fr);
+    grid-template-rows: 60px repeat(4, 1fr);
+    gap: 25px;
+}
+
+#page6-container .page6-wrapper .header {
+    font-weight: 700;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+#page6-container .page6-wrapper .column-header {
+    color: #34495e;
+    border-bottom: 3px solid var(--header-border-color);
+}
+
+#page6-container .page6-wrapper .row-header {
+    color: #34495e;
+    border-right: 3px solid var(--header-border-color);
+}
+
+#page6-container .page6-wrapper .grid-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+#page6-container .page6-wrapper .node {
+    width: 95%;
+    height: 85%;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: var(--node-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.95em;
+    font-weight: 500;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-clip: padding-box;
+}
+
+#page6-container .page6-wrapper .node:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--node-shadow-hover);
+}
+
+#page6-container .page6-wrapper .node-core {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    color: white;
+    border: 2px solid #2980b9;
+}
+
+#page6-container .page6-wrapper .node-regular {
+    background-color: #ffffff;
+    color: #555;
+    border: 2px solid #bdc3c7;
+}
+
+/* --- 动画与交互样式 --- */
+#page6-container .page6-wrapper .dimmed {
+    opacity: 0.35;
+    filter: grayscale(60%);
+}
+#page6-container .page6-wrapper path.dimmed {
+    opacity: 0.2;
+}
+
+#page6-container .page6-wrapper .node.highlighted {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: var(--node-shadow-hover);
+}
+
+#page6-container .page6-wrapper .active-flow {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: scale(1.08);
+    box-shadow: 0px 0px 20px 5px rgba(255, 193, 7, 0.8);
+    animation: page6-breathe 1.5s infinite ease-in-out;
+}
+
+@keyframes page6-breathe {
+    0%, 100% { transform: scale(1.08); }
+    50% { transform: scale(1.12); }
+}
+
+#page6-container .page6-wrapper path.animated-draw {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: page6-draw 1s ease-in-out forwards;
+}
+
+@keyframes page6-draw {
+    to { stroke-dashoffset: 0; }
+}
+
+#page6-container .page6-wrapper .legend { margin-top: 20px; display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
+#page6-container .page6-wrapper .legend-item { display: flex; align-items: center; font-size: 0.9em; }
+#page6-container .page6-wrapper .legend-symbol { width: 40px; min-height: 20px; margin-right: 10px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+#page6-container .page6-wrapper .legend-node { font-size: 0.8em; color: white; font-weight: bold; box-shadow: var(--node-shadow); }
+#page6-container .page6-wrapper .legend-line-main { background-color: var(--line-main); height: 4px; }
+#page6-container .page6-wrapper .legend-line-coordination { background-image: linear-gradient(to right, var(--line-coordination) 60%, transparent 40%); background-size: 15px 3px; height: 3px; }
+#page6-container .page6-wrapper .legend-line-oversight { background-image: radial-gradient(circle at center, var(--line-oversight) 40%, transparent 50%); background-size: 15px 3px; height: 3px; }
+
+#page6-container .page6-wrapper #play-animation-btn {
+    margin-top: 30px;
+    padding: 12px 25px;
+    font-size: 1em;
+    font-family: 'Noto Sans SC', sans-serif;
+    border: none;
+    border-radius: 8px;
+    background-color: #2c3e50;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+#page6-container .page6-wrapper #play-animation-btn:hover {
+    background-color: #34495e;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
