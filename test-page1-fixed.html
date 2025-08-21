@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page1 修复测试</title>
+    <link rel="stylesheet" href="css/pages/page1.css">
+    <style>
+        /* 极简重置样式 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; }
+        .page-section { width: 100%; height: 100vh; }
+        
+        /* 调试样式 - 给容器添加边框 */
+        #page1-container .page1-wrapper .chart-column {
+            border: 2px solid red;
+        }
+        #page1-container .page1-wrapper #wordcloud-container {
+            border: 2px solid blue;
+        }
+    </style>
+</head>
+<body>
+    <!-- 测试page1结构 -->
+    <section id="page1-container" class="page-section">
+        <div class="page1-wrapper">
+            <div class="container">
+                <!-- 左侧文案栏 -->
+                <div class="text-column">
+                    <h1>药品集采：降价惠民背后的逻辑</h1>
+                    <p>2018 年 11 月，国务院办公厅印发的《关于国家组织药品集中采购和使用试点方案的通知》标志着药品集采改革的开始。截止到2024年12月30日，中国药品集采已经进行了整整10轮。</p>
+                    <p>这十轮药品集采既包含了临床常见消炎药，如阿司匹林、阿奇霉素，也包括了罕见病用药，如波生坦、诺西那生钠。集采拟中选药品价格平均下降58%，累计节约药品费用1635亿元。</p>
+                    <p><strong>到底什么是集采，集采到底为了什么，集采到底好不好？</strong>这一个个问号正是我们要回答的问题。</p>
+                </div>
+
+                <!-- 右侧词云图栏 -->
+                <div class="chart-column">
+                    <div id="wordcloud-container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 引入 ECharts 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
+    
+    <!-- 引入拆分后的 JS -->
+    <script src="js/pages/page1.js"></script>
+    
+    <script>
+        // 调试信息
+        console.log('页面加载完成');
+        console.log('词云容器:', document.getElementById('wordcloud-container'));
+        console.log('容器尺寸:', document.getElementById('wordcloud-container').offsetWidth, 'x', document.getElementById('wordcloud-container').offsetHeight);
+    </script>
+</body>
+</html> 

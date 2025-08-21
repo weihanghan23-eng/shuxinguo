@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>药品集采深度解析 - 修复版</title>
+    
+    <!-- 引入ECharts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts-wordcloud/2.1.0/echarts-wordcloud.min.js"></script>
+    
+    <style>
+        /* 基础样式重置 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #FFFBF0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        /* 页面容器 */
+        .page-section {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            width: 100%;
+        }
+        
+        /* 页面1专用样式 */
+        #page1-container {
+            height: 100vh;
+            width: 100%;
+            background-color: #FFFBF0;
+            overflow: hidden;
+        }
+        
+        /* 左右布局容器 */
+        .container {
+            display: flex;
+            width: 90vw;
+            height: 90vh;
+            max-width: 1400px;
+            max-height: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        
+        /* 左侧文案区域 */
+        .text-column {
+            width: 43%;
+            height: 100%;
+            padding-right: 40px;
+            box-sizing: border-box;
+            color: #333;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .text-column h1 {
+            font-size: 28px;
+            color: #111;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #0B4F6C;
+            padding-bottom: 12px;
+        }
+        
+        .text-column p {
+            font-size: 16px;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 16px;
+        }
+        
+        /* 右侧图表区域 */
+        .chart-column {
+            width: 57%;
+            height: 100%;
+            position: relative;
+        }
+        
+        /* 词云容器 */
+        #wordcloud-container {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .text-column {
+                width: 100%;
+                height: 50%;
+                padding-right: 0;
+                padding-bottom: 20px;
+            }
+            
+            .chart-column {
+                width: 100%;
+                height: 50%;
+            }
+        }
+        
+        /* 调试信息样式 */
+        .debug-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            max-width: 300px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- 调试信息 -->
+    <div class="debug-info" id="debug-info">
+        <div>状态: 初始化中...</div>
+        <div>ECharts: 检查中...</div>
+        <div>词云插件: 检查中...</div>
+        <div>容器: 检查中...</div>
+    </div>
+
+    <!-- 页面1内容 -->
+    <section id="page1-container" class="page-section">
+        <div class="container">
+            <!-- 左侧文案区域 -->
+            <div class="text-column">
+                <h1>药品集采深度解析</h1>
+                <p>
+                    国家药品集中带量采购（简称"集采"）是国家医保局主导的一项重大医改政策，旨在通过"以量换价"的方式，降低药品价格，减轻患者负担，提高医保基金使用效率。
+                </p>
+                <p>
+                    但是并非所有人都知道了解国家药品集采，很多人只会在买药、开药时感受到"药变便宜了"，至于为什么"药变便宜了？"就没人在意了，甚至有一些声音在说"便宜没好货"。
+                </p>
+                <p>
+                    <strong>到底什么是集采，集采到底为了什么，集采到底好不好？</strong>这一个个问号正是我们要回答的问题。
+                </p>
+            </div>
+
+            <!-- 右侧词云图栏 -->
+            <div class="chart-column">
+                <div id="wordcloud-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 调试信息更新函数
+        function updateDebugInfo(message, type = 'info') {
+            const debugInfo = document.getElementById('debug-info');
+            const time = new Date().toLocaleTimeString();
+            debugInfo.innerHTML += `<div style="color: ${type === 'error' ? '#ff6b6b' : type === 'success' ? '#51cf66' : '#fff'}">[${time}] ${message}</div>`;
+            
+            // 保持最新的5条信息
+            const lines = debugInfo.querySelectorAll('div');
+            if (lines.length > 6) {
+                lines[1].remove();
+            }
+        }
+        
+        // 检查ECharts
+        function checkECharts() {
+            if (typeof echarts === 'undefined') {
+                updateDebugInfo('❌ ECharts 未加载', 'error');
+                return false;
+            }
+            updateDebugInfo('✅ ECharts 已加载', 'success');
+            return true;
+        }
+        
+        // 检查词云插件
+        function checkWordcloudPlugin() {
+            if (typeof echarts.registerTransform === 'undefined') {
+                updateDebugInfo('❌ 词云插件未加载', 'error');
+                return false;
+            }
+            updateDebugInfo('✅ 词云插件已加载', 'success');
+            return true;
+        }
+        
+        // 检查容器
+        function checkContainer() {
+            const container = document.getElementById('wordcloud-container');
+            if (!container) {
+                updateDebugInfo('❌ 词云容器不存在', 'error');
+                return false;
+            }
+            
+            const width = container.offsetWidth;
+            const height = container.offsetHeight;
+            updateDebugInfo(`✅ 容器尺寸: ${width} x ${height}`, 'success');
+            
+            if (width === 0 || height === 0) {
+                updateDebugInfo('⚠️ 容器尺寸为0，可能被CSS隐藏', 'error');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // 初始化词云
+        function initWordcloud() {
+            try {
+                updateDebugInfo('🚀 开始初始化词云...');
+                
+                const container = document.getElementById('wordcloud-container');
+                
+                // 初始化图表
+                const myChart = echarts.init(container);
+                updateDebugInfo('✅ ECharts 实例创建成功');
+                
+                // 词云数据
+                const wordData = [
+                    { name: '仿制', value: 595 }, { name: '医保', value: 485 }, { name: '医院', value: 469 },
+                    { name: '医生', value: 396 }, { name: '原研药', value: 381 }, { name: '问题', value: 284 },
+                    { name: '效果', value: 217 }, { name: '医疗', value: 182 }, { name: '患者', value: 180 },
+                    { name: '没有', value: 169 }, { name: '药品', value: 153 }, { name: '价格', value: 144 },
+                    { name: '国产', value: 138 }, { name: '报销', value: 129 }, { name: '药效', value: 123 },
+                    { name: '药物', value: 121 }, { name: '便宜', value: 137 }, { name: '保险', value: 115 },
+                    { name: '现在', value: 100 }, { name: '质量', value: 101 }, { name: '视频', value: 101 },
+                    { name: '病人', value: 112 }, { name: '自费', value: 94 }, { name: '医改', value: 75 }
+                ];
+                
+                updateDebugInfo(`📊 准备数据: ${wordData.length} 个词`);
+                
+                // 配置选项
+                const option = {
+                    tooltip: {
+                        show: true,
+                        formatter: '{b} ({c})',
+                        backgroundColor: 'rgba(50,50,50,0.7)',
+                        borderColor: '#ccc',
+                        borderWidth: 1,
+                        textStyle: { color: '#fff' }
+                    },
+                    series: [{
+                        type: 'wordCloud',
+                        sizeRange: [15, 120],
+                        rotationRange: [0, 0],
+                        gridSize: 12,
+                        shape: 'circle',
+                        drawOutOfBound: false,
+                        width: '100%',
+                        height: '100%',
+                        textStyle: {
+                            fontWeight: 'bold',
+                            color: function (params) {
+                                const value = params.value;
+                                if (value > 300) return '#01BAEF';
+                                else if (value > 100) return '#0B4F6C';
+                                else if (value > 50) return '#536872';
+                                else return '#888';
+                            }
+                        },
+                        emphasis: {
+                            textStyle: {
+                                shadowBlur: 10,
+                                shadowColor: '#333'
+                            }
+                        },
+                        data: wordData
+                    }]
+                };
+                
+                updateDebugInfo('⚙️ 设置配置...');
+                myChart.setOption(option);
+                updateDebugInfo('✅ 配置设置完成');
+                
+                // 检查渲染结果
+                setTimeout(() => {
+                    const canvas = container.querySelector('canvas');
+                    const svg = container.querySelector('svg');
+                    
+                    if (canvas) {
+                        updateDebugInfo(`🎉 Canvas 渲染成功: ${canvas.width} x ${canvas.height}`, 'success');
+                    } else if (svg) {
+                        updateDebugInfo('🎉 SVG 渲染成功', 'success');
+                    } else {
+                        updateDebugInfo('❌ 未找到 Canvas 或 SVG 元素', 'error');
+                        updateDebugInfo(`容器内容: ${container.innerHTML}`, 'error');
+                    }
+                }, 1000);
+                
+                // 监听窗口大小变化
+                window.addEventListener('resize', function() {
+                    myChart.resize();
+                    updateDebugInfo('📱 图表已调整大小');
+                });
+                
+            } catch (error) {
+                updateDebugInfo(`❌ 初始化失败: ${error.message}`, 'error');
+                console.error('词云初始化失败:', error);
+            }
+        }
+        
+        // 主函数
+        function main() {
+            updateDebugInfo('🌐 页面加载完成，开始检查...');
+            
+            // 等待资源加载
+            setTimeout(() => {
+                if (checkECharts() && checkWordcloudPlugin() && checkContainer()) {
+                    updateDebugInfo('🎯 所有检查通过，开始初始化词云...');
+                    initWordcloud();
+                } else {
+                    updateDebugInfo('❌ 检查失败，无法初始化词云', 'error');
+                }
+            }, 500);
+        }
+        
+        // 页面加载完成后执行
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', main);
+        } else {
+            main();
+        }
+    </script>
+</body>
+</html> 

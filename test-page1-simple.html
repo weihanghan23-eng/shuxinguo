@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page1 简化测试</title>
+    <style>
+        /* 基础样式 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; }
+        
+        #page1-container {
+            width: 100%;
+            height: 100vh;
+            background-color: #FFFBF0;
+        }
+        
+        .page1-wrapper {
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+        }
+        
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .text-column {
+            width: 43%;
+            padding-right: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .text-column h1 {
+            font-size: 28px;
+            color: #111;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #0B4F6C;
+            padding-bottom: 12px;
+        }
+        
+        .text-column p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        
+        .chart-column {
+            width: 57%;
+            height: 100%;
+            border: 2px solid red;
+        }
+        
+        #wordcloud-container {
+            width: 100%;
+            height: 100%;
+            border: 2px solid blue;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <section id="page1-container">
+        <div class="page1-wrapper">
+            <div class="container">
+                <div class="text-column">
+                    <h1>药品集采：降价惠民背后的逻辑</h1>
+                    <p>2018 年 11 月，国务院办公厅印发的《关于国家组织药品集中采购和使用试点方案的通知》标志着药品集采改革的开始。</p>
+                    <p>这十轮药品集采既包含了临床常见消炎药，如阿司匹林、阿奇霉素，也包括了罕见病用药，如波生坦、诺西那生钠。</p>
+                </div>
+                
+                <div class="chart-column">
+                    <div id="wordcloud-container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 引入 ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    
+    <script>
+        // 简化测试
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成');
+            
+            const container = document.getElementById('wordcloud-container');
+            console.log('容器:', container);
+            console.log('容器尺寸:', container.offsetWidth, 'x', container.offsetHeight);
+            
+            if (typeof echarts === 'undefined') {
+                console.error('ECharts 未加载');
+                return;
+            }
+            
+            console.log('ECharts 已加载');
+            
+            // 尝试初始化
+            try {
+                const chart = echarts.init(container);
+                console.log('ECharts 初始化成功');
+                
+                // 简单的测试配置
+                const option = {
+                    series: [{
+                        type: 'scatter',
+                        data: [[1, 1], [2, 2], [3, 3]],
+                        symbolSize: 20
+                    }]
+                };
+                
+                chart.setOption(option);
+                console.log('测试图表设置完成');
+                
+            } catch (error) {
+                console.error('ECharts 初始化失败:', error);
+            }
+        });
+    </script>
+</body>
+</html> 
